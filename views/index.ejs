@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/main.css">
+    <title>Document</title>
+    <style>
+        .completed-label {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="heading">
+        <h1>
+            <%=title %>
+        </h1>
+    </div>
+    <div class="box">
+        <form id="myForm" method="post">
+            <% for (let i=0; i < 20; i++) { %>
+                <div class="item">
+                    <input type="checkbox" id="checkbox<%= i %>" data-index="<%= i %>">
+                    <label id="label<%= i %>">
+                        <%=moviesList[i].Title %>
+                    </label>
+                </div>
+
+                <% } %>
+
+                    <input type="submit" value="Add" id="add-btn">
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const indices = [];
+        $(document).ready(function () {
+            $('input[type="checkbox"]').change(function () {
+                const index = $(this).data('index');
+                indices.push(index);
+                console.log(indices);
+            });
+
+
+            $('#myForm').submit(function (event) {
+                event.preventDefault();
+
+                // Send the array to the server
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/recieve_array',
+                    data: { numbers: indices },
+                    success: function (response) {
+                        // Handle a successful response from the server
+                        console.log('Array sent successfully');
+                    },
+                    error: function (error) {
+                        // Handle errors
+                        console.error('Error sending array');
+                    }
+                });
+            });
+
+
+
+        })
+    </script>
+
+
+</body>
+
+</html>
