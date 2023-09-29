@@ -47,6 +47,7 @@
 
             $('#myForm').submit(function (event) {
                 event.preventDefault();
+                location.reload();
 
                 // Send the array to the server
                 $.ajax({
@@ -63,10 +64,7 @@
                     }
                 });
             });
-
-
-
-        })
+        });
     </script>
 
 

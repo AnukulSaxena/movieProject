@@ -1,6 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import { Movie, Mymovie } from './models/movies.js';
+
 
 const app = express();
 const port = 3000;
@@ -14,27 +16,12 @@ async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/moviesDB");
 }
 
-const movieSchema = new mongoose.Schema({
-    Release_Date: String,
-    Title: String,
-    Genre: String,
-    Overview: String,
-    Popularity: Number,
-    Vote_Count: String,
-    Vote_Average: String,
-    Original_Language: String,
-    Poster_Url: String
-});
-
-const Movie = mongoose.model("Movie", movieSchema);
-const Mymovie = mongoose.model("Mymovie", movieSchema);
-
 let chosenMovies = []
 let movies = []
 
 app.get("/", async (req, res) => {
     movies = await Movie.find();
-    res.render("index.ejs", { title: "Movies", moviesList: movies, selectedMovies: chosenMovies });
+    res.render("index.ejs", { title: "Movies", moviesList: movies });
 });
 
 
@@ -47,9 +34,9 @@ async function insertData(number) {
         const res = await Mymovie.findOne(filter);
 
         if (res) {
-            console.log(1);
+            console.log("Copy Found");
         } else {
-            console.log(2);
+            console.log("Data Inserted.");
             await Mymovie.create(data.toObject())
         }
 
@@ -70,6 +57,8 @@ app.post("/api/recieve_array", (req, res) => {
         }
 
     }
+
+
 
 });
 
