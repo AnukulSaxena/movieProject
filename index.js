@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 main().then(() => { console.log("connection successful."); }).catch(err => console.log(err));
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/moviesDB");
+    await mongoose.connect("mongodb+srv://copopoco71:algore269@mymovies.gbncia4.mongodb.net/moviesDB");
 }
 
 let chosenMovies = []
@@ -55,11 +55,7 @@ app.post("/api/recieve_array", (req, res) => {
             myArray[number]++;
             insertData(number);
         }
-
     }
-
-
-
 });
 
 
