@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import { Movie, Mymovie } from './models/movies.js';
+import 'dotenv/config';
 
 
 const app = express();
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 main().then(() => { console.log("connection successful."); }).catch(err => console.log(err));
 
 async function main() {
-    await mongoose.connect("mongodb+srv://copopoco71:algore269@mymovies.gbncia4.mongodb.net/moviesDB");
+    await mongoose.connect(process.env.DB_URL);
 }
 
 let chosenMovies = []
