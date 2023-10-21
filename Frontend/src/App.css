@@ -1,0 +1,60 @@
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.box {
+    width: 320px;
+    border: 2px solid black;
+    margin: 10px;
+    display: flex;
+    padding: 10px;
+}
+
+.movie-image {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.movie-details {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.title {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+}
+
+.genre {
+    margin: 0;
+    color: #666;
+}
+
+.fixed-button-container {
+    position: fixed;
+    bottom: 20px;
+    /* Adjust the distance from the bottom as needed */
+    left: 50%;
+    /* Center the button horizontally */
+    transform: translateX(-50%);
+    /* Center the button horizontally */
+    z-index: 1;
+    /* Ensure it's above the boxes */
+}
+
+.fixed-button {
+    background-color: lightblue;
+    padding: 20px 40px;
+    /* Increase the button size as needed */
+    border: none;
+    border-radius: 10px;
+    /* Increase the border radius for rounded corners */
+    cursor: pointer;
+    font-size: 18px;
+    /* Increase the font size as needed */
+    color: white;
+    /* Change text color to ensure visibility */
+}

@@ -1,20 +1,22 @@
 {
-  "name": "movieproject",
+  "name": "movieprojectbackend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Supposed to be a Backend",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "movie",
+    "tracker",
+    "project"
+  ],
+  "author": "Anukul Prakash Saxena",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
-    "dotenv": "^16.3.1",
-    "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "mongoose": "^7.5.3"
+    "mongoose": "^7.6.1"
   }
 }

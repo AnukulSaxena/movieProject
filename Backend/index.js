@@ -1,34 +1,31 @@
 import express from "express";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import { Movie, Mymovie } from './models/movies.js';
-import 'dotenv/config';
-
+import bodyParser from "body-parser";
 
 const app = express();
 const port = 3000;
+var count = 0;
+var movies = []
 
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 main().then(() => { console.log("connection successful."); }).catch(err => console.log(err));
-
 async function main() {
-    await mongoose.connect(process.env.DB_URL);
+    await mongoose.connect('mongodb://127.0.0.1:27017/moviesDB');
 }
 
-let chosenMovies = []
-let movies = []
-
-app.get("/", async (req, res) => {
+app.get("/api/movies", async (req, res) => {
     movies = await Movie.find();
-    res.render("index.ejs", { title: "Movies", moviesList: movies });
+
+    var movieslice = movies.slice(0, 100);
+    console.log(count++);
+    res.send(movieslice)
 });
-
-
 
 async function insertData(number) {
     const data = (movies[number]);
+    console.log(data);
 
     try {
         const filter = { Title: data.Title }
@@ -47,20 +44,18 @@ async function insertData(number) {
     }
 }
 
-app.post("/api/recieve_array", (req, res) => {
-    const myArray = Array.from({ length: 10000 }, () => 0);
-    const numbers = req.body.numbers;
-    for (let i = 0; i < numbers.length; i++) {
-        const number = numbers[i];
-        if (myArray[number] === 0) {
-            myArray[number]++;
-            insertData(number);
-        }
+app.post('/api/saveIndices', (req, res) => {
+    const clickedBoxes = req.body.clickedIndices;
+    for (var i = 0; i < clickedBoxes.length; i++) {
+        const idx = clickedBoxes[i];
+        insertData(idx);
+
     }
-});
 
 
+    res.send('Data received successfully');
+})
 
 app.listen(port, () => {
-    console.log('server running');
-});
+    console.log("Server is listening at PORT: " + port);
+})
