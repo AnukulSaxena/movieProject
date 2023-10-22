@@ -1,0 +1,56 @@
+/* Navbar.css */
+
+.horizontal-navbar {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    /* Fix the navbar at the top */
+    top: 0;
+    /* Position it at the top of the page */
+    left: 0;
+    right: 0;
+    /* Take the full width */
+    z-index: 2;
+    /* Ensure it's above other content */
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+.nav-item {
+    margin-left: 10px;
+}
+
+.nav-button {
+    background-color: #555;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #777;
+}
+
+.side-panel {
+    position: fixed;
+    top: 87px;
+    left: 0;
+    width: 300px;
+    height: 700px;
+    background-color: cadetblue;
+    color: black;
+    transition: left 0.3s;
+    overflow-y: auto;
+    z-index: 1;
+}
