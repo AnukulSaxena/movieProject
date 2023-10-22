@@ -1,0 +1,18 @@
+.login-panel {
+    position: fixed;
+    width: 800px;
+    height: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #C2D9FF;
+    z-index: 2;
+    /* Add any additional styles you need */
+}
+
+.login-panel-content {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Add styles for your form fields, buttons, and other elements as needed */

@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import './navbar.css';
+import './../styles/navbar.css';
 
-function Navbar({ nIndices, nMovies }) {
+function Navbar({ nIndices, nMovies, onPageChange, onLoginClick }) {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
     const togglePanel = () => {
         setIsPanelOpen(!isPanelOpen);
+    };
+
+    const handleHomeClick = () => {
+        // Call the onPageChange function from the parent component (App) with the new page number (0)
+        onPageChange(0);
     };
 
     return (
@@ -17,13 +22,14 @@ function Navbar({ nIndices, nMovies }) {
                     </button>
                 </li>
                 <li className="nav-item">
-                    <button className="nav-button">Home</button>
+                    <button className="nav-button" onClick={handleHomeClick}>
+                        Home
+                    </button>
                 </li>
                 <li className="nav-item">
-                    <button className="nav-button">About</button>
-                </li>
-                <li className="nav-item">
-                    <button className="nav-button">Contact</button>
+                    <button className="nav-button" onClick={onLoginClick}>
+                        Login/SignUp
+                    </button>
                 </li>
             </ul>
             {isPanelOpen && (

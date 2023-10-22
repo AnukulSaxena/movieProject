@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import './../styles/App.css'
 import axios from 'axios'
 import Box from './Box'
 import Navbar from './Navbar'
+import PaginationControls from './PaginationControls'
+import LoginPanel from './LoginPanel';
+
 
 function App() {
   const [Movies, setMovies] = useState([]);
@@ -10,6 +13,7 @@ function App() {
   const [clickedIndices, setClickedIndices] = useState([]);
   const [Page, setPage] = useState(0);
   const [pageInput, setPageInput] = useState(1);
+  const [isLoginPanelOpen, setLoginPanelOpen] = useState(false);
 
 
   useEffect(() => {
@@ -85,10 +89,24 @@ function App() {
   const handleGoClick = () => {
     // Handle the "Go" button click event
     const len = Math.floor((Movies.length - 1) / 100);
-    if (pageInput >= 0 && pageInput <= len) {
-      setPage(pageInput);
+    if (pageInput >= 1 && pageInput <= len + 1) {
+      setPage(pageInput - 1);
     }
   };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleLoginClick = () => {
+    console.log('click');
+    setLoginPanelOpen(true);
+  };
+
+  const handleCloseLoginPanel = () => {
+    setLoginPanelOpen(false);
+  };
+
   var j = Page;
   const startIndex = j * 100;
   j++;
@@ -99,7 +117,11 @@ function App() {
 
   return (
     <div className='App-container'>
-      <Navbar nIndices={clickedIndices} nMovies={Movies} />
+      <Navbar
+        nIndices={clickedIndices} nMovies={Movies}
+        onPageChange={handlePageChange}
+        onLoginClick={handleLoginClick} />
+
       <div className="box-container">
         {currentMovies.map((movie, index) => (
           <Box
@@ -115,29 +137,27 @@ function App() {
           />
         ))}
       </div>
-      <div className="pagination-buttons">
-        <button className="pagination-button" onClick={handlePreviousClick}>
-          Previous
-        </button>
-        <button className="pagination-button" onClick={handleNextClick}>
-          Next
-        </button>
-      </div>
-      <input
-        type="number"
-        value={pageInput}
-        onChange={(e) => setPageInput(e.target.value)}
-        min="1"
+      <PaginationControls
+        onPreviousClick={handlePreviousClick}
+        onNextClick={handleNextClick}
+        onPageInputChange={(e) => setPageInput(e.target.value)}
+        onGoClick={handleGoClick}
+        pageInput={pageInput}
+        totalPages={Math.floor((Movies.length - 1) / 100)}
+        currentPage={Page}
+
       />
-      <button className="pagination-button" onClick={handleGoClick}>
-        Go
-      </button>
 
       {isAtLeastOneBoxClicked && (
         <div className="fixed-button-container">
           <button className="fixed-button"
             onClick={sendClickedIndicesToServer}>Send to Server</button>
         </div>
+      )}
+
+      {/* Check if the login panel should be displayed */}
+      {isLoginPanelOpen && (
+        <LoginPanel onClose={handleCloseLoginPanel} />
       )}
     </div>
   );

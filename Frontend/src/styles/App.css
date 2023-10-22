@@ -1,8 +1,9 @@
 .box-container {
     padding-top: 100px;
+    padding-left: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
