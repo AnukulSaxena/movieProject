@@ -1,4 +1,5 @@
 .box-container {
+    padding-top: 100px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;

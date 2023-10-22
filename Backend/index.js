@@ -17,10 +17,8 @@ async function main() {
 
 app.get("/api/movies", async (req, res) => {
     movies = await Movie.find();
-
-    var movieslice = movies.slice(0, 100);
     console.log(count++);
-    res.send(movieslice)
+    res.send(movies)
 });
 
 async function insertData(number) {
