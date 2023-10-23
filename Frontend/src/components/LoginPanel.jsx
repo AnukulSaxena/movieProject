@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './../styles/LoginPanel.css';
 import axios from 'axios';
 
-function LoginPanel({ onClose }) {
+function LoginPanel({ onClose, setIsUserLoggedIn }) {
     const [mode, setMode] = useState('login');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [SignupMessage, setSignupMessage] = useState('');
 
-    // Initialize the isLoggedIn state from local storage
+
     const initialIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
 
@@ -30,8 +30,11 @@ function LoginPanel({ onClose }) {
                 setSignupMessage(response.data.message);
                 setUsername('');
                 setPassword('');
-                if (response.data.message === 'Login successful')
+                if (response.data.message === 'Login successful') {
                     setIsLoggedIn(true);
+                    setIsUserLoggedIn(true);
+                }
+
             })
             .catch((error) => {
                 console.error('Login failed:', error);
@@ -59,6 +62,7 @@ function LoginPanel({ onClose }) {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
+        setIsUserLoggedIn(false);
     };
 
     const handleModeChange = (e) => {

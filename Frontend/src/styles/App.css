@@ -38,30 +38,29 @@
 .fixed-button-container {
     position: fixed;
     bottom: 20px;
-    /* Adjust the distance from the bottom as needed */
+
     left: 50%;
-    /* Center the button horizontally */
+
     transform: translateX(-50%);
-    /* Center the button horizontally */
+
     z-index: 1;
-    /* Ensure it's above the boxes */
+
 }
 
 .fixed-button {
     background-color: lightblue;
     padding: 20px 40px;
-    /* Increase the button size as needed */
+
     border: none;
     border-radius: 10px;
-    /* Increase the border radius for rounded corners */
+
     cursor: pointer;
     font-size: 18px;
-    /* Increase the font size as needed */
+
     color: white;
-    /* Change text color to ensure visibility */
+
 }
 
-/* In your CSS file (e.g., App.css) */
 .pagination-controls {
     display: flex;
     justify-content: center;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './../styles/navbar.css';
 
-function Navbar({ nIndices, nMovies, onPageChange, onLoginClick }) {
+function Navbar({ nIndices, nMovies, onPageChange, onLoginClick, isUserLoggedIn }) {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
     const togglePanel = () => {
@@ -9,9 +9,12 @@ function Navbar({ nIndices, nMovies, onPageChange, onLoginClick }) {
     };
 
     const handleHomeClick = () => {
-        // Call the onPageChange function from the parent component (App) with the new page number (0)
+
         onPageChange(0);
     };
+    const handleProfileClick = () => {
+        console.log("profile click");
+    }
 
     return (
         <nav className="horizontal-navbar">
@@ -31,6 +34,13 @@ function Navbar({ nIndices, nMovies, onPageChange, onLoginClick }) {
                         Login/SignUp
                     </button>
                 </li>
+                {isUserLoggedIn && (
+                    <li className="nav-item">
+                        <button className="nav-button" onClick={handleProfileClick}>
+                            Profile
+                        </button>
+                    </li>
+                )}
             </ul>
             {isPanelOpen && (
                 <div className="side-panel">

@@ -14,6 +14,7 @@ function App() {
   const [Page, setPage] = useState(0);
   const [pageInput, setPageInput] = useState(1);
   const [isLoginPanelOpen, setLoginPanelOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
 
   useEffect(() => {
@@ -29,7 +30,7 @@ function App() {
 
   const handleBoxClick = (index) => {
 
-    // Toggle the clicked state for the box at the given index
+
     setClickedBoxes((prevClickedBoxes) => {
       const newClickedBoxes = [...prevClickedBoxes];
       newClickedBoxes[index] = !newClickedBoxes[index];
@@ -37,12 +38,12 @@ function App() {
     });
 
     if (clickedIndices.includes(index)) {
-      // If the index is already in the array, remove it
+
       setClickedIndices((prevClickedIndices) =>
         prevClickedIndices.filter((item) => item !== index)
       );
     } else {
-      // If the index is not in the array, add it
+
       setClickedIndices((prevClickedIndices) => [...prevClickedIndices, index]);
     }
     console.log(clickedIndices);
@@ -57,9 +58,7 @@ function App() {
       .post('/api/saveIndices', { clickedIndices })
       .then((response) => {
         console.log('Indices sent to the server:', clickedIndices);
-        // You can handle the response from the server here if needed
 
-        // Clear the clickedIndices array and reset box colors
         setClickedIndices([]);
         setClickedBoxes(Array(Movies.length).fill(false));
       })
@@ -70,7 +69,7 @@ function App() {
   };
 
   const handleNextClick = () => {
-    // Handle the "Next" button click event
+
     const len = Math.floor((Movies.length - 1) / 100);
     console.log(len);
     if (Page < len)
@@ -79,7 +78,7 @@ function App() {
   };
 
   const handlePreviousClick = () => {
-    // Handle the "Previous" button click event
+
     console.log('Previous');
     if (Page >= 1) {
       setPage(Page - 1);
@@ -87,7 +86,7 @@ function App() {
   };
 
   const handleGoClick = () => {
-    // Handle the "Go" button click event
+
     const len = Math.floor((Movies.length - 1) / 100);
     if (pageInput >= 1 && pageInput <= len + 1) {
       setPage(pageInput - 1);
@@ -120,7 +119,8 @@ function App() {
       <Navbar
         nIndices={clickedIndices} nMovies={Movies}
         onPageChange={handlePageChange}
-        onLoginClick={handleLoginClick} />
+        onLoginClick={handleLoginClick}
+        isUserLoggedIn={isUserLoggedIn} />
 
       <div className="box-container">
         {currentMovies.map((movie, index) => (
@@ -130,9 +130,9 @@ function App() {
             mIndex={Page * 100 + index}
             mTitle={movie.Title}
             mGenre={movie.Genre}
-            // Pass the clicked state to the Box component
+
             isClicked={clickedBoxes[Page * 100 + index]}
-            // Pass the click handler to the Box component
+
             onClick={() => handleBoxClick(Page * 100 + index)}
           />
         ))}
@@ -151,13 +151,13 @@ function App() {
       {isAtLeastOneBoxClicked && (
         <div className="fixed-button-container">
           <button className="fixed-button"
-            onClick={sendClickedIndicesToServer}>Send to Server</button>
+            onClick={isUserLoggedIn ? sendClickedIndicesToServer : handleLoginClick}>Send to Server</button>
         </div>
       )}
 
-      {/* Check if the login panel should be displayed */}
+
       {isLoginPanelOpen && (
-        <LoginPanel onClose={handleCloseLoginPanel} />
+        <LoginPanel onClose={handleCloseLoginPanel} setIsUserLoggedIn={setIsUserLoggedIn} />
       )}
     </div>
   );

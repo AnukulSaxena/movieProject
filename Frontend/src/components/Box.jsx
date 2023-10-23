@@ -1,7 +1,7 @@
 import React from "react";
 
 function Box(props) {
-    // Define a style object to conditionally apply a light blue background
+
     const boxStyle = {
         backgroundColor: props.isClicked ? 'lightblue' : 'white',
     };
