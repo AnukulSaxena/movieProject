@@ -63,7 +63,6 @@ app.post('/api/login', async (req, res) => {
 
 async function insertData(number) {
     const data = (movies[number]);
-    console.log(data);
 
     try {
         const filter = { Title: data.Title }
@@ -84,6 +83,8 @@ async function insertData(number) {
 
 app.post('/api/saveIndices', (req, res) => {
     const clickedBoxes = req.body.clickedIndices;
+    console.log(req.body.clickedIndices);
+    console.log(req.body.username);
     for (var i = 0; i < clickedBoxes.length; i++) {
         const idx = clickedBoxes[i];
         insertData(idx);

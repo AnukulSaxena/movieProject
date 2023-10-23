@@ -18,7 +18,6 @@ function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
     }, [isLoggedIn]);
 
     const handleLogin = (e) => {
-        console.log('handlelogin');
         e.preventDefault();
         const loginData = {
             username,
@@ -27,7 +26,7 @@ function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
 
         axios.post('/api/login', loginData)
             .then((response) => {
-                console.log('Logged in successfully:', response.data);
+                console.log(response.data);
                 setSignupMessage(response.data.message);
                 setUsername('');
                 setPassword('');
@@ -44,7 +43,6 @@ function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
     };
 
     const handleSignup = (e) => {
-        console.log('handlesignup');
         e.preventDefault();
         const userData = {
             username,
@@ -53,7 +51,6 @@ function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
 
         axios.post('/api/signup', userData)
             .then((response) => {
-                console.log('Account created:', response.status);
                 setUsername('');
                 setPassword('');
                 setSignupMessage(response.data.message);
@@ -64,13 +61,15 @@ function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
     };
 
     const handleLogout = () => {
-        console.log('handlelogout');
+        setUsername('');
+        setAppUsername(username);
         setIsLoggedIn(false);
         setIsUserLoggedIn(false);
+
     };
 
     const handleModeChange = (e) => {
-        console.log('handlemodechange');
+
         e.preventDefault();
         if (mode === 'login') {
             setMode('signup');

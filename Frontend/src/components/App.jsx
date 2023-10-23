@@ -14,15 +14,22 @@ function App() {
   const [Page, setPage] = useState(0);
   const [pageInput, setPageInput] = useState(1);
   const [isLoginPanelOpen, setLoginPanelOpen] = useState(false);
-  const [AppUsername, setAppUsername] = useState('');
+
 
   const initialIsUserLoggedIn = localStorage.getItem('isLoggedInKey') === 'true';
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(initialIsUserLoggedIn);
-
   useEffect(() => {
     localStorage.setItem('isLoggedInKey', isUserLoggedIn);
     console.log(isUserLoggedIn);
   }, [isUserLoggedIn]);
+
+  const initialUsername = localStorage.getItem('usernameKey') || '';
+  const [AppUsername, setAppUsername] = useState(initialUsername);
+
+  useEffect(() => {
+    localStorage.setItem('usernameKey', AppUsername);
+    console.log(AppUsername);
+  }, [AppUsername]);
 
 
   useEffect(() => {
@@ -54,16 +61,14 @@ function App() {
 
       setClickedIndices((prevClickedIndices) => [...prevClickedIndices, index]);
     }
-    console.log(clickedIndices);
 
   };
 
   const isAtLeastOneBoxClicked = clickedBoxes.some((value) => value);
 
   const sendClickedIndicesToServer = () => {
-    console.log(clickedIndices);
     axios
-      .post('/api/saveIndices', { clickedIndices })
+      .post('/api/saveIndices', { clickedIndices: clickedIndices, username: AppUsername })
       .then((response) => {
         console.log('Indices sent to the server:', clickedIndices);
 
@@ -79,7 +84,6 @@ function App() {
   const handleNextClick = () => {
 
     const len = Math.floor((Movies.length - 1) / 100);
-    console.log(len);
     if (Page < len)
       setPage(Page + 1);
 
@@ -87,7 +91,6 @@ function App() {
 
   const handlePreviousClick = () => {
 
-    console.log('Previous');
     if (Page >= 1) {
       setPage(Page - 1);
     }
@@ -108,7 +111,6 @@ function App() {
   const handleLoginClick = () => {
 
     setLoginPanelOpen(true);
-    console.log(AppUsername);
   };
 
   const handleCloseLoginPanel = () => {
