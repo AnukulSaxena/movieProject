@@ -61,20 +61,25 @@ app.post('/api/login', async (req, res) => {
 
 
 
-async function insertData(number) {
-    const data = (movies[number]);
+async function insertData(number, username) {
+    const data = movies[number];
 
     try {
-        const filter = { Title: data.Title }
-        const res = await Mymovie.findOne(filter);
+        // Use the username to create a dynamic collection name
+        const collectionName = `${username}_movies`; // Replace 'movies' with your default collection name
+
+        // Define the model with the dynamic collection name
+        const UserModel = mongoose.model(collectionName, Mymovie.schema);
+
+        const filter = { Title: data.Title };
+        const res = await UserModel.findOne(filter);
 
         if (res) {
             console.log("Copy Found");
         } else {
             console.log("Data Inserted.");
-            await Mymovie.create(data.toObject())
+            await UserModel.create(data.toObject());
         }
-
     } catch (error) {
         console.error('Error inserting data into target collection:', error);
         throw error;
@@ -83,17 +88,16 @@ async function insertData(number) {
 
 app.post('/api/saveIndices', (req, res) => {
     const clickedBoxes = req.body.clickedIndices;
-    console.log(req.body.clickedIndices);
-    console.log(req.body.username);
-    for (var i = 0; i < clickedBoxes.length; i++) {
-        const idx = clickedBoxes[i];
-        insertData(idx);
+    const username = req.body.username;
 
+    for (let i = 0; i < clickedBoxes.length; i++) {
+        const idx = clickedBoxes[i];
+        insertData(idx, username);
     }
 
-
     res.send('Data received successfully');
-})
+});
+
 
 app.listen(port, () => {
     console.log("Server is listening at PORT: " + port);

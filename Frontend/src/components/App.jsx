@@ -20,7 +20,6 @@ function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(initialIsUserLoggedIn);
   useEffect(() => {
     localStorage.setItem('isLoggedInKey', isUserLoggedIn);
-    console.log(isUserLoggedIn);
   }, [isUserLoggedIn]);
 
   const initialUsername = localStorage.getItem('usernameKey') || '';
@@ -28,7 +27,6 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('usernameKey', AppUsername);
-    console.log(AppUsername);
   }, [AppUsername]);
 
 
