@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { Movie, Mymovie } from './models/movies.js';
 import bodyParser from "body-parser";
+import { User } from './models/User.js';
 
 const app = express();
 const port = 3000;
@@ -20,6 +21,25 @@ app.get("/api/movies", async (req, res) => {
     console.log(count++);
     res.send(movies)
 });
+
+app.post('/api/signup', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        // Check if the username already exists in your database
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+        // If the username is not taken, create a new user
+        const newUser = new User({ username, password });
+        await newUser.save();
+        return res.json({ message: 'User registered successfully' });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ message: 'Registration failed' });
+    }
+});
+
 
 async function insertData(number) {
     const data = (movies[number]);
