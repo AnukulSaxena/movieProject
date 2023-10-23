@@ -14,7 +14,15 @@ function App() {
   const [Page, setPage] = useState(0);
   const [pageInput, setPageInput] = useState(1);
   const [isLoginPanelOpen, setLoginPanelOpen] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [AppUsername, setAppUsername] = useState('');
+
+  const initialIsUserLoggedIn = localStorage.getItem('isLoggedInKey') === 'true';
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(initialIsUserLoggedIn);
+
+  useEffect(() => {
+    localStorage.setItem('isLoggedInKey', isUserLoggedIn);
+    console.log(isUserLoggedIn);
+  }, [isUserLoggedIn]);
 
 
   useEffect(() => {
@@ -98,8 +106,9 @@ function App() {
   };
 
   const handleLoginClick = () => {
-    console.log('click');
+
     setLoginPanelOpen(true);
+    console.log(AppUsername);
   };
 
   const handleCloseLoginPanel = () => {
@@ -109,9 +118,9 @@ function App() {
   var j = Page;
   const startIndex = j * 100;
   j++;
-  console.log(startIndex);
+
   const endIndex = j * 100;
-  console.log(endIndex);
+
   const currentMovies = Movies.slice(startIndex, endIndex);
 
   return (
@@ -157,7 +166,9 @@ function App() {
 
 
       {isLoginPanelOpen && (
-        <LoginPanel onClose={handleCloseLoginPanel} setIsUserLoggedIn={setIsUserLoggedIn} />
+        <LoginPanel onClose={handleCloseLoginPanel}
+          setIsUserLoggedIn={setIsUserLoggedIn}
+          setAppUsername={setAppUsername} />
       )}
     </div>
   );

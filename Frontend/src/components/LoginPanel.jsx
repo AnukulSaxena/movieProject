@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react';
 import './../styles/LoginPanel.css';
 import axios from 'axios';
 
-function LoginPanel({ onClose, setIsUserLoggedIn }) {
+function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
     const [mode, setMode] = useState('login');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [SignupMessage, setSignupMessage] = useState('');
 
 
-    const initialIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const initialIsLoggedIn = localStorage.getItem('isLoggedInKey') === 'true';
     const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
 
     useEffect(() => {
-        // Update local storage when isLoggedIn state changes
-        localStorage.setItem('isLoggedIn', isLoggedIn);
+        localStorage.setItem('isLoggedInKey', isLoggedIn);
+        console.log(isLoggedIn);
     }, [isLoggedIn]);
 
     const handleLogin = (e) => {
+        console.log('handlelogin');
         e.preventDefault();
         const loginData = {
             username,
@@ -33,6 +34,7 @@ function LoginPanel({ onClose, setIsUserLoggedIn }) {
                 if (response.data.message === 'Login successful') {
                     setIsLoggedIn(true);
                     setIsUserLoggedIn(true);
+                    setAppUsername(username);
                 }
 
             })
@@ -42,6 +44,7 @@ function LoginPanel({ onClose, setIsUserLoggedIn }) {
     };
 
     const handleSignup = (e) => {
+        console.log('handlesignup');
         e.preventDefault();
         const userData = {
             username,
@@ -61,11 +64,13 @@ function LoginPanel({ onClose, setIsUserLoggedIn }) {
     };
 
     const handleLogout = () => {
+        console.log('handlelogout');
         setIsLoggedIn(false);
         setIsUserLoggedIn(false);
     };
 
     const handleModeChange = (e) => {
+        console.log('handlemodechange');
         e.preventDefault();
         if (mode === 'login') {
             setMode('signup');
