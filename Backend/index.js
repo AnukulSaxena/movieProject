@@ -28,7 +28,7 @@ app.post('/api/signup', async (req, res) => {
         // Check if the username already exists in your database
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.status(400).json({ message: 'Username already exists' });
+            return res.json({ message: 'Username already exists' });
         }
         // If the username is not taken, create a new user
         const newUser = new User({ username, password });
@@ -39,6 +39,26 @@ app.post('/api/signup', async (req, res) => {
         res.status(500).json({ message: 'Registration failed' });
     }
 });
+
+app.post('/api/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        // Find the user in the database by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.json({ message: 'User not found' });
+        }
+        // Check if the provided password matches the user's password
+        if (password !== user.password) {
+            return res.json({ message: 'Incorrect password' });
+        }
+        return res.json({ message: 'Login successful', user: user });
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({ message: 'Login failed' });
+    }
+});
+
 
 
 async function insertData(number) {

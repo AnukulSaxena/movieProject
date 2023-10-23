@@ -43,8 +43,7 @@ label {
     margin-top: 20px;
 }
 
-.login-button,
-.signup-button {
+.btn-grp {
     padding: 10px 20px;
     background-color: #007BFF;
     color: white;
@@ -60,8 +59,6 @@ label {
 }
 
 .close-button {
-    background-color: #ccc;
-    color: #000;
     border: none;
     cursor: pointer;
     padding: 10px 20px;

@@ -1,48 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './../styles/LoginPanel.css';
 import axios from 'axios';
 
 function LoginPanel({ onClose }) {
-    const [mode, setMode] = useState('login'); // 'login' or 'signup'
+    const [mode, setMode] = useState('login');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [userExists, setUserExists] = useState(false);
+    const [SignupMessage, setSignupMessage] = useState('');
+
+    // Initialize the isLoggedIn state from local storage
+    const initialIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
+
+    useEffect(() => {
+        // Update local storage when isLoggedIn state changes
+        localStorage.setItem('isLoggedIn', isLoggedIn);
+    }, [isLoggedIn]);
 
     const handleLogin = (e) => {
-        // Handle login logic here
         e.preventDefault();
-        console.log('Logging in with Username:', username, 'and Password:', password);
+        const loginData = {
+            username,
+            password,
+        };
+
+        axios.post('/api/login', loginData)
+            .then((response) => {
+                console.log('Logged in successfully:', response.data);
+                setSignupMessage(response.data.message);
+                setUsername('');
+                setPassword('');
+                if (response.data.message === 'Login successful')
+                    setIsLoggedIn(true);
+            })
+            .catch((error) => {
+                console.error('Login failed:', error);
+            });
     };
 
     const handleSignup = (e) => {
-        e.preventDefault(); // Prevent the default form submission behavior
-        // Prepare the data to be sent to the server
+        e.preventDefault();
         const userData = {
             username,
             password,
         };
 
-        // Make an Axios POST request to the server
         axios.post('/api/signup', userData)
             .then((response) => {
-                // Handle the response from the server
-                console.log('Account created:', response.data);
-                // Optionally, you can reset the form fields here
+                console.log('Account created:', response.status);
                 setUsername('');
                 setPassword('');
-                setUserExists(false); // Reset the userExists state
+                setSignupMessage(response.data.message);
             })
             .catch((error) => {
                 console.error('Error creating account:', error);
-                setUserExists(true); // Set userExists to true if the user already exists
             });
     };
 
-    const handleModeChange = () => {
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+    };
+
+    const handleModeChange = (e) => {
+        e.preventDefault();
         if (mode === 'login') {
             setMode('signup');
         } else {
             setMode('login');
+            setSignupMessage('');
         }
     };
 
@@ -50,9 +75,9 @@ function LoginPanel({ onClose }) {
         <div className="login-panel">
             <div className="login-panel-content">
                 <h2>{mode === 'login' ? 'Login' : 'Signup'}</h2>
-                {userExists && <p className="user-exists-message">User already exists. Please choose a different username.</p>}
-                <form>
-                    <div className="form-group ">
+                <p className="user-exists-message">{SignupMessage}</p>
+                {(!isLoggedIn) && <form>
+                    <div className="form-group">
                         <label htmlFor="username">{mode === 'login' ? 'Username' : 'Create Username'}:</label>
                         <input
                             className='inputbtn'
@@ -74,18 +99,25 @@ function LoginPanel({ onClose }) {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    {mode === 'login' ? (
-                        <div className="button-group">
-                            <button className="login-button" onClick={handleLogin}>Login</button>
-                            <button className="signup-button" onClick={handleModeChange}>Switch to Signup</button>
-                        </div>
-                    ) : (
-                        <div className="button-group">
-                            <button className="create-account-button" onClick={handleSignup}>Create Account</button>
-                        </div>
-                    )}
-                </form>
-                <button className="close-button" onClick={onClose}>Close</button>
+                    <div className="button-group">
+                        {mode === 'login' ? (
+                            <button className="login-button btn-grp" onClick={handleLogin}>Login</button>
+                        ) : (
+                            <button className="create-account-button btn-grp" onClick={handleSignup}>Create Account</button>
+                        )}
+                        <button className="signup-button btn-grp" onClick={handleModeChange}>
+                            Switch to {mode === 'login' ? 'Signup' : 'Login'}
+                        </button>
+                    </div>
+                </form>}
+                {isLoggedIn && (
+                    <button className="logout-button btn-grp" onClick={handleLogout}>
+                        Logout
+                    </button>
+                )}
+                <button className="close-button btn-grp" onClick={onClose}>
+                    Close
+                </button>
             </div>
         </div>
     );
