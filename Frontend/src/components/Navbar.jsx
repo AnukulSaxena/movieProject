@@ -1,26 +1,32 @@
 import React, { useState } from 'react';
 import './../styles/navbar.css';
+import ProfilePanel from './ProfilePanel';
 
 function Navbar({ nIndices, nMovies, onPageChange, onLoginClick, isUserLoggedIn }) {
-    const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [isSelectPanelOpen, setIsSelectPanelOpen] = useState(false);
+    const [isProfilePanelOPen, setIsProfilePanelOpen] = useState(false);
 
-    const togglePanel = () => {
-        setIsPanelOpen(!isPanelOpen);
+    const toggleSelectPanel = () => {
+        setIsSelectPanelOpen(!isSelectPanelOpen);
     };
+
+    const toggleProfilePanel = () => {
+        console.log(isProfilePanelOPen);
+        setIsProfilePanelOpen(!isProfilePanelOPen);
+    }
 
     const handleHomeClick = () => {
-
         onPageChange(0);
     };
-    const handleProfileClick = () => {
-        console.log("profile click");
-    }
+
+
 
     return (
         <nav className="horizontal-navbar">
+
             <ul className="nav-list">
                 <li className="nav-item">
-                    <button className="nav-button" onClick={togglePanel}>
+                    <button className="nav-button" onClick={toggleSelectPanel}>
                         Selected
                     </button>
                 </li>
@@ -36,13 +42,14 @@ function Navbar({ nIndices, nMovies, onPageChange, onLoginClick, isUserLoggedIn 
                 </li>
                 {isUserLoggedIn && (
                     <li className="nav-item">
-                        <button className="nav-button" onClick={handleProfileClick}>
+                        <button className="nav-button" onClick={toggleProfilePanel}>
                             Profile
                         </button>
                     </li>
                 )}
             </ul>
-            {isPanelOpen && (
+
+            {isSelectPanelOpen && (
                 <div className="side-panel">
                     <h2>Selected Movies</h2>
                     <ul>
@@ -55,6 +62,10 @@ function Navbar({ nIndices, nMovies, onPageChange, onLoginClick, isUserLoggedIn 
                     </ul>
                 </div>
             )}
+
+            {isProfilePanelOPen && <ProfilePanel />
+
+            }
         </nav>
     );
 }

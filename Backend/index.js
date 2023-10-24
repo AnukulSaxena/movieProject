@@ -98,6 +98,18 @@ app.post('/api/saveIndices', (req, res) => {
     res.send('Data received successfully');
 });
 
+app.post('/api/watchedMovies', async (req, res) => {
+    console.log(req.body.userProfile);
+    const username = req.body.userProfile;
+
+    const collectionName = `${username}_movies`;
+
+    const UserModel = mongoose.model(collectionName, Mymovie.schema);
+
+    const watched = await UserModel.find();
+    res.send(watched)
+})
+
 
 app.listen(port, () => {
     console.log("Server is listening at PORT: " + port);

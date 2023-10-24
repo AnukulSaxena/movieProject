@@ -19,6 +19,10 @@ function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        if (username === '' || password === '') {
+            setSignupMessage('Empty');
+            return
+        }
         const loginData = {
             username,
             password,
@@ -44,6 +48,10 @@ function LoginPanel({ onClose, setIsUserLoggedIn, setAppUsername }) {
 
     const handleSignup = (e) => {
         e.preventDefault();
+        if (username === '' || password === '') {
+            setSignupMessage('Empty');
+            return
+        }
         const userData = {
             username,
             password,

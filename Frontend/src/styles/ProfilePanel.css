@@ -1,0 +1,83 @@
+/* ProfilePanel.css */
+
+.profile-panel {
+    background: #78efc8;
+    width: 1000px;
+    height: 600px;
+    border: 1px solid #ccc;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-header {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.profile-header h2 {
+    margin: 0;
+}
+
+.profile-content {
+    display: flex;
+    width: 900px;
+    /* Adjust the width of the content area */
+    max-height: 500px;
+    /* Set a max-height for the content area */
+    padding: 10px;
+    overflow: hidden;
+}
+
+.left-panel,
+.right-panel {
+    width: 450px;
+    /* Fixed width for both left and right panels */
+    border: 1px solid #ccc;
+    margin: 14px;
+    background: #fff;
+    padding: 10px;
+}
+
+/* Add additional styles for your profile content as needed */
+
+/* Set a max-height for the right panel to allow scrolling */
+.right-panel {
+    max-height: 100%;
+    /* Adjust this value based on your layout */
+    overflow-y: auto;
+}
+
+/* Additional styles for list items */
+.right-panel h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.list-item {
+    margin-bottom: 10px;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-item:hover {
+    background: #e0e0e0;
+    transition: background 0.3s;
+}

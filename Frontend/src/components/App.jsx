@@ -22,9 +22,10 @@ function App() {
     localStorage.setItem('isLoggedInKey', isUserLoggedIn);
   }, [isUserLoggedIn]);
 
+
+
   const initialUsername = localStorage.getItem('usernameKey') || '';
   const [AppUsername, setAppUsername] = useState(initialUsername);
-
   useEffect(() => {
     localStorage.setItem('usernameKey', AppUsername);
   }, [AppUsername]);
@@ -154,7 +155,6 @@ function App() {
         pageInput={pageInput}
         totalPages={Math.floor((Movies.length - 1) / 100)}
         currentPage={Page}
-
       />
 
       {isAtLeastOneBoxClicked && (
